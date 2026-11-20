@@ -32,14 +32,35 @@ def go_ahead(this_store, choice):
         return True
 
     elif choice == 6:
+        this_store.checkout_basket(this_store)
+        return True
+
+    elif choice == 7:
         print("\nGoodbye!")
         return False
 
     else:
-        print("\nPlease enter a number from 1 to 6.\n")
+        print("\nPlease enter a number from 1 to 7.\n")
 
     return True
 
+def checkout_basket(this_store):
+    """Finalisiert die Bestellung und gibt den Beleg aus."""
+    receipt = this_store.checkout_basket()
+    if receipt is None:
+        print("\nYour basket is empty. Nothing to order.")
+        return
+
+    print("\n===== Order Receipt =====")
+    for index, item in enumerate(receipt["items"], start=1):
+        print(
+            f"{index}. {item['name']} | "
+            f"Quantity: {item['amount']} | "
+            f"Subtotal: {item['total_price']:.2f} €"
+        )
+    print("-------------------------")
+    print(f"Total payment: {receipt['total']:.2f} €")
+    print("Thank you for your order! Your basket is now empty.")
 
 def make_order(this_store):
     """Erlaubt mehrere Artikel und behandelt ungültige Eingaben."""
@@ -91,6 +112,7 @@ def start(this_store):
         "Add to basket",
         "Show basket",
         "Clear basket",
+        "Make an order",
         "Quit"
     ]
     while True:

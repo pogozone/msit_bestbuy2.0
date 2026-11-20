@@ -105,5 +105,18 @@ class TestStore(unittest.TestCase):
         self.assertEqual(self.store.basket, [])
         self.assertEqual(self.mac.quantity, 100)
 
+    def test_checkout_basket_clears_basket_and_keeps_stock_deducted(self):
+        self.store.order([(self.mac, 1), (self.bose, 2)])
+
+        receipt = self.store.checkout_basket()
+
+        self.assertIsNotNone(receipt)
+        self.assertAlmostEqual(receipt["total"], 1950.0)
+        self.assertEqual(len(receipt["items"]), 2)
+        self.assertEqual(self.store.basket, [])
+        self.assertEqual(self.mac.quantity, 99)
+        self.assertEqual(self.bose.quantity, 498)
+        self.assertIsNone(self.store.checkout_basket())
+
 if __name__ == "__main__":
     unittest.main()

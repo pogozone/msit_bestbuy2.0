@@ -76,8 +76,8 @@ class Product:
 
         if quantity > self.quantity:
             raise ValueError(
-                f"Du kannst maximal {self.quantity} "
-                f"von {self.name} bestellen."
+                f"Der Lagerbestand reicht nicht aus: Du kannst maximal "
+                f"{self.quantity} von {self.name} bestellen."
             )
 
         price_total = self.get_total_price(quantity)

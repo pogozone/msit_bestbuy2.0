@@ -90,6 +90,19 @@ class Store:
         self.basket = entries
         return sum(item["total_price"] for item in self.basket)
 
+    def checkout_basket(self):
+        """Schließt die Bestellung für den aktuellen Warenkorb ab."""
+        if not self.basket:
+            return None
+
+        purchased_items = [dict(item) for item in self.basket]
+        total = sum(item["total_price"] for item in purchased_items)
+        self.basket.clear()
+        return {
+            "items": purchased_items,
+            "total": total,
+        }
+
     def clear_order(self):
         """Leert den Warenkorb und fügt die Waren dem Bestand wieder hinzu."""
         for item in self.basket:

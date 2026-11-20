@@ -113,11 +113,16 @@ class Store:
 
     def show_basket(self):
         """Zeigt Mengen und Gesamtpreise im Warenkorb."""
+        if not self.basket:
+            print("\nDer Warenkorb ist leer.")
+            return
+
+        print("\nAktueller Warenkorb:")
         for index, product in enumerate(self.basket, start=1):
             print(
                 f'{index}. {product["name"]} | '
                 f'Menge: {product["amount"]} | '
-                f'Total: {product["total_price"]:.2f} €'
+                f'Gesamt: {product["total_price"]:.2f} €'
             )
 
     def get_total_quantity(self):

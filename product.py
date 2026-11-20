@@ -76,8 +76,8 @@ class Product:
 
         if quantity > self.quantity:
             raise ValueError(
-                f"Der Lagerbestand reicht nicht aus: Du kannst maximal "
-                f"{self.quantity} von {self.name} bestellen."
+                f"Du kannst maximal {self.quantity} "
+                f"von {self.name} bestellen."
             )
 
         price_total = self.get_total_price(quantity)
@@ -91,19 +91,19 @@ class Product:
 
     def __str__(self) -> str:
         quantity = (
-            "Unlimited" if isinstance(self, NonStockedProduct)
+            "Unbegrenzt" if isinstance(self, NonStockedProduct)
             else self.quantity
         )
         limit = (
-            f" | Max per order: {self.maximum}"
+            f" | Max. pro Bestellung: {self.maximum}"
             if isinstance(self, LimitedProduct) else ""
         )
         promotion = (
-            repr(self.promotion) if self.promotion is not None else "None"
+            repr(self.promotion) if self.promotion is not None else "Keine"
         )
         return (
-            f"Name: {self.name} | Price: {self.price:.2f} | "
-            f"Quantity: {quantity}{limit} | Promotion: {promotion}"
+            f"Name: {self.name} | Preis: {self.price:.2f} € | "
+            f"Bestand: {quantity}{limit} | Aktion: {promotion}"
         )
 
     def __gt__(self, other):

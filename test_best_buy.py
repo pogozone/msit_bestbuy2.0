@@ -34,7 +34,7 @@ class OrderTests(unittest.TestCase):
     def test_unlimited_and_single_promotion(self):
         item = NonStockedProduct("Windows", 125)
         item.set_promotion(PercentDiscount("Discount", 30))
-        self.assertIn("Unlimited", str(item))
+        self.assertIn("Unbegrenzt", str(item))
         self.assertIn("30%", str(item))
         self.assertAlmostEqual(item.buy(3), 262.5)
         item.set_promotion(PercentDiscount("Other", 10))

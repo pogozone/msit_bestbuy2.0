@@ -10,15 +10,16 @@ def go_ahead(this_store, choice):
     try:
         choice = int(choice)
     except ValueError:
-        print("\nPlease enter a number from 1 to 6.\n")
+        print("\nBitte gib eine Zahl von 1 bis 7 ein.\n")
         return True
 
     if choice == 1:
-        print("\nAll products available:\n")
+        print("\nVerfügbare Produkte im Shop:\n")
         this_store.show_all_products()
 
     elif choice == 2:
-        print(f"\nTotal amount in store: {this_store.get_total_quantity()}")
+      
+        print(f"\nGesamtmenge im Shop: {this_store.get_total_quantity()}")
 
     elif choice == 3:
         make_order(this_store)
@@ -26,41 +27,44 @@ def go_ahead(this_store, choice):
     elif choice == 4:
         this_store.show_basket()
         return True
+
     elif choice == 5:
         this_store.clear_order()
-        print("\nOrder cancelled. Stock restored.")
+        print("\nBestellung abgebrochen. Bestand wurde wiederhergestellt.")
         return True
 
     elif choice == 6:
-        this_store.checkout_basket(this_store)
+        checkout_basket(this_store)
         return True
 
     elif choice == 7:
-        print("\nGoodbye!")
+        print("\nAuf Wiedersehen!")
         return False
 
     else:
-        print("\nPlease enter a number from 1 to 7.\n")
+        print("\nBitte gib eine Zahl von 1 bis 7 ein.\n")
 
     return True
+
 
 def checkout_basket(this_store):
     """Finalisiert die Bestellung und gibt den Beleg aus."""
     receipt = this_store.checkout_basket()
     if receipt is None:
-        print("\nYour basket is empty. Nothing to order.")
+        print("\nDein Warenkorb ist leer. Es gibt nichts zu bestellen.")
         return
 
-    print("\n===== Order Receipt =====")
+    print("\n===== Bestellbeleg =====")
     for index, item in enumerate(receipt["items"], start=1):
         print(
             f"{index}. {item['name']} | "
-            f"Quantity: {item['amount']} | "
-            f"Subtotal: {item['total_price']:.2f} €"
+            f"Menge: {item['amount']} | "
+            f"Zwischensumme: {item['total_price']:.2f} €"
         )
-    print("-------------------------")
-    print(f"Total payment: {receipt['total']:.2f} €")
-    print("Thank you for your order! Your basket is now empty.")
+    print("------------------------")
+    print(f"Gesamtbetrag: {receipt['total']:.2f} €")
+    print("Vielen Dank für deine Bestellung! Der Warenkorb ist nun leer.")
+
 
 def make_order(this_store):
     """Erlaubt mehrere Artikel und behandelt ungültige Eingaben."""
@@ -68,17 +72,18 @@ def make_order(this_store):
         # Nach jedem Kauf die aktuelle Liste neu laden.
         available_products = this_store.get_all_products()
         if not available_products:
-            print("Keine Produkte verfügbar.")
+            print("\nKeine Produkte verfügbar.")
             return
 
+        print("\nVerfügbare Produkte:\n")
         this_store.show_all_products()
 
         try:
-            number = int(input("\nChoose product: "))
+            number = int(input("\nProduktnummer wählen: "))
             if not 1 <= number <= len(available_products):
                 print("Dieses Produkt gibt es nicht.")
                 continue
-            amount = int(input("\nAmount to buy: "))
+            amount = int(input("\nGewünschte Menge: "))
         except ValueError:
             print("Bitte gib eine ganze Zahl ein.")
             continue
@@ -90,36 +95,36 @@ def make_order(this_store):
             print(f"Bestellung nicht möglich: {error}")
             continue
 
-        print(f"\nTotal: {total:.2f} €\nBasket:")
+        print(f"\nWarenkorb-Summe: {total:.2f} €")
         this_store.show_basket()
 
         while True:
             answer = input(
-                "\nAdd another item? (y/n): "
+                "\nWeiteren Artikel hinzufügen? (j/n): "
             ).strip().lower()
             if answer in ("n", "no", "nein"):
                 return
             if answer in ("y", "yes", "j", "ja"):
                 break
-            print("Bitte y oder n eingeben.")
+            print("Bitte j oder n eingeben.")
 
 
 def start(this_store):
     """Zeigt das Hauptmenü."""
     menu = [
-        "List all products in store",
-        "Show total amount in store",
-        "Add to basket",
-        "Show basket",
-        "Clear basket",
-        "Make an order",
-        "Quit"
+        "Alle Produkte im Shop anzeigen",
+        "Gesamtmenge im Shop anzeigen",
+        "In den Warenkorb legen",
+        "Warenkorb anzeigen",
+        "Warenkorb leeren",
+        "Bestellung abschließen",
+        "Beenden",
     ]
     while True:
         print("\n===== Best Buy =====\n")
         for index, item in enumerate(menu, start=1):
             print(f"{index}. {item}")
-        choice = input("\nPlease choose a number: ").strip()
+        choice = input("\nBitte wähle eine Nummer: ").strip()
         if not go_ahead(this_store, choice):
             break
 
@@ -137,9 +142,9 @@ def main():
     ]
 
     # Create promotion catalog
-    second_half_price = promotion.SecondHalfPrice("Second Half price!")
-    third_one_free = promotion.ThirdOneFree("Third One Free!")
-    thirty_percent = promotion.PercentDiscount("30% off!", percent=30)
+    second_half_price = promotion.SecondHalfPrice("Zweites Stück zum halben Preis!")
+    third_one_free = promotion.ThirdOneFree("Jedes dritte Stück gratis!")
+    thirty_percent = promotion.PercentDiscount("30 % Rabatt!", percent=30)
 
     # Add promotions to products
     product_list[0].set_promotion(second_half_price)

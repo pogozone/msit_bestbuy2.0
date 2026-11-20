@@ -75,7 +75,7 @@ def test_buy_invalid_type_or_negative_quantity():
 def test_buy_exceeds_stock():
     product = Product("Test Product", price=250, quantity=10)
 
-    with pytest.raises(ValueError, match="Lagerbestand"):
+    with pytest.raises(ValueError, match="maximal"):
         product.buy(100)
 
 

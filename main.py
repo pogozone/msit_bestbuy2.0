@@ -22,7 +22,7 @@ def go_ahead(this_store, choice):
         print(f"\nGesamtmenge im Shop: {this_store.get_total_quantity()}")
 
     elif choice == 3:
-        make_order(this_store)
+        add_to_basket(this_store)
 
     elif choice == 4:
         this_store.show_basket()
@@ -66,7 +66,7 @@ def checkout_basket(this_store):
     print("Vielen Dank für deine Bestellung! Der Warenkorb ist nun leer.")
 
 
-def make_order(this_store):
+def add_to_basket(this_store):
     """Erlaubt mehrere Artikel und behandelt ungültige Eingaben."""
     while True:
         # Nach jedem Kauf die aktuelle Liste neu laden.

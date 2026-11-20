@@ -82,10 +82,7 @@ class Product:
 
         price_total = self.get_total_price(quantity)
 
-        self.quantity -= quantity
-
-        if self.quantity == 0:
-            self.deactivate()
+        self.set_quantity(self.quantity - quantity)
 
         return price_total
 
